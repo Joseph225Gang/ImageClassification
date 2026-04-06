@@ -63,7 +63,7 @@ def crop(image, cropx, cropy):
     y, x, c = image.shape
 
     startx = x//2 - (cropx // 8)
-    starty = x//3 - (cropx // 4)
+    starty = y//3 - (cropx // 4)
 
     stopx = startx + cropx
     stopy = starty + 2*cropy
