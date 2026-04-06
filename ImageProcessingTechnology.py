@@ -52,5 +52,95 @@ bird_gray = skimage.color.rgb2gray(bird)
 plt.figure (figsize = (6,6))
 plt.title("Gray Image")
 plt.imshow(bird_gray, cmap = 'gray')
-plt.show()
 bird_gray.shape
+
+giraffes = skimage.img_as_float(skimage.io.imread('datasets/images/giraffes.jpg')).astype(np.float32)
+plt.figure(figsize = (6,6))
+plt.title("Original Image")
+plt.imshow(giraffes)
+
+def crop(image, cropx, cropy):
+    y, x, c = image.shape
+
+    startx = x//2 - (cropx // 8)
+    starty = x//3 - (cropx // 4)
+
+    stopx = startx + cropx
+    stopy = starty + 2*cropy
+
+    return image[starty:stopy, startx:stopx]
+
+giraffes_cropped = crop (giraffes, 256, 256)
+
+plt.title("Cropped Image")
+plt.imshow(giraffes_cropped)
+
+from skimage.util import random_noise
+
+sigma = 0.155
+noisy_giraffes = random_noise(giraffes, var=sigma**2)
+
+plt.figure (figsize = (6,6))
+plt.title("Image with added noise")
+plt.imshow(noisy_giraffes)
+
+from skimage.restoration import denoise_tv_chambolle, denoise_bilateral, denoise_wavelet, estimate_sigma
+
+sigma_est = estimate_sigma(
+    noisy_giraffes,
+    channel_axis=-1,   
+    average_sigmas=True
+)
+
+plt.imshow(
+    denoise_tv_chambolle(
+        noisy_giraffes,
+        weight=0.1,
+        channel_axis=-1
+    )
+)
+
+from skimage.restoration import denoise_bilateral
+
+plt.imshow(
+    denoise_bilateral(
+        noisy_giraffes,
+        sigma_color=0.05,
+        sigma_spatial=15,
+        channel_axis=-1
+    )
+)
+plt.imshow(
+    denoise_wavelet(
+        noisy_giraffes,
+        channel_axis=-1
+    )
+)
+
+
+monkeys = skimage.img_as_float(skimage.io.imread('datasets/images/monkeys.jpeg')).astype(np.float32)
+
+plt.figure(figsize = (6,6))
+plt.title("Orininal Image")
+plt.imshow(monkeys)
+
+monkeys_flip = np.fliplr(monkeys)
+
+plt.figure(figsize = (6,6))
+plt.title("Horizontal Flip")
+plt.imshow(monkeys_flip)
+
+mirror = skimage.img_as_float(skimage.io.imread('datasets/images/book-mirrored.jpg')).astype(np.float32)
+
+plt.figure(figsize = (6,6))
+plt.title("Orininal Image")
+plt.imshow(mirror)
+
+mirror_flip = np.fliplr(mirror)
+
+plt.figure(figsize = (6,6))
+plt.title("Horizontal Flip")
+plt.imshow(mirror_flip)
+
+plt.show()
+
