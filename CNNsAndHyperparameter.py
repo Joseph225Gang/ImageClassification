@@ -151,6 +151,8 @@ plt.plot(x, loss_values)
 plt.xlabel('Epoch')
 plt.ylabel('Loss')
 
+plt.show()
+
 model.eval()
 
 from sklearn.metrics import accuracy_score, precision_score, recall_score
