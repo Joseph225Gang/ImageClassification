@@ -33,12 +33,12 @@ testset = torchvision.datasets.CIFAR10(root='datasets/cifar10/train',
 					download=True,
 					transform=test_transform)
 
-trainloader = torch.utils.data.DataLoader(trainset, batch_size=16, shuffle=True, num_workders=2)
-testloader = torch.utils.data.DataLoader(trainset, batch_size=16, shuffle=False, num_workders=2)
+trainloader = torch.utils.data.DataLoader(trainset, batch_size=16, shuffle=True, num_workers=0)
+testloader = torch.utils.data.DataLoader(trainset, batch_size=16, shuffle=False, num_workers=0)
 class_names = trainset.classes
 
 print(class_names)
-img, label = iter(trainloader).next()
+img, label = next(iter(trainloader))
 
 in_size = 3
 
@@ -117,7 +117,7 @@ X = (range(1,11))
 
 plt.figure(figsize=(12,10))
 
-plt.plot(x, loss_values)
+plt.plot(X, loss_values)
 plt.xlabel('Step')
 plt.ylabel('Loss')
 
@@ -144,6 +144,7 @@ sample_img = (1/(abs(m) * M)) * sample_img + 0.5
 
 plt.figure(figsize=(6,6))
 plt.imshow(sample_img)
+plt.show()
 
 test_img, test_label = testset[23]
 test_img = test_img.reshape(-1,3,32,32)
