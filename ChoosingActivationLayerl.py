@@ -34,7 +34,7 @@ testset = torchvision.datasets.CIFAR10(root='datasets/cifar10/train',
 					transform=test_transform)
 
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=16, shuffle=True, num_workers=0)
-testloader = torch.utils.data.DataLoader(testloader, batch_size=16, shuffle=False, num_workers=0)
+testloader = torch.utils.data.DataLoader(testset, batch_size=16, shuffle=False, num_workers=0)
 class_names = trainset.classes
 
 print(class_names)
